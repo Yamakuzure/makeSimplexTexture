@@ -1,6 +1,10 @@
 makeSimplexTexture Revision History
 -----------------------------------
 
+0.8.7 - 2018-12-20
+ * Fixed support for latest SFML
+ * Fixed support for latest pwxLib
+
 0.8.5.2 - 2012-04-23
  * Fixed various VC++10 issues
 
