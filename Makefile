@@ -42,6 +42,7 @@ TARGET   := mkst
 # Use the compiler as the linker.
 LD := $(CXX)
 
+
 # ------------------------------------
 # Install and target directories
 # ------------------------------------
@@ -51,6 +52,7 @@ BINPREFIX  ?= $(PREFIX)
 BINDIR     ?= ${BINPREFIX}/bin
 DOCPREFIX  ?= $(PREFIX)
 DOCDIR     ?= $(DOCPREFIX)/share/doc/makeSimplexTexture-$(VERSION)
+
 
 # ------------------------------------
 # Debug Mode settings
@@ -86,6 +88,7 @@ else
   CXXFLAGS := -march=native ${CXXFLAGS} -O2
 endif
 
+
 # ------------------------------------
 # Source files, objects, deps, doc
 # ------------------------------------
@@ -102,6 +105,7 @@ INSTALL.md LICENSE NEWS.md README.md TODO.md
 # ------------------------------------
 .SUFFIXES: .cpp
 
+
 # ------------------------------------
 # Create dependencies
 # ------------------------------------
@@ -111,16 +115,19 @@ dep/%.d: src/%.cpp
 	$(SED) 's,\($*\)\.o[ :]*,obj/\1.o $@ : ,g' < $@.$$$$ > $@; \
 	$(RM) $@.$$$$
 
+
 # ------------------------------------
 # Compile modules
 # ------------------------------------
 obj/%.o: src/%.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o $@ -c $<
 
+
 # ------------------------------------
 # Default target
 # ------------------------------------
 all: $(TARGET)
+
 
 # ------------------------------------
 # Regular targets
@@ -137,6 +144,7 @@ install: $(TARGET)
 	$(INSTALL) -m 755 $(TARGET) $(DESTDIR)${BINDIR}
 	$(INSTALL) -d $(DESTDIR)${DOCDIR}
 	$(INSTALL) -m 644 $(DOCFILES) $(DESTDIR)${DOCDIR}
+
 
 # ------------------------------------
 # Include all dependency files
