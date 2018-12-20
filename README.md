@@ -94,8 +94,10 @@ Build and Install
 ---------------------------------------
 Building and installation is done using make.
 
-> `make`
-> `make install`
+```
+make
+make install
+```
 
 See the `Makefile` for the options you have.
 
@@ -107,7 +109,7 @@ Prerequisites
  * The graphical display is done using SFML.  
    Get it at http://www.sfml-dev.org/
 
-   
+
 Contributing
 ---------------------------------------
 To contribute to makeSimplexTexture, fork the current source code from
