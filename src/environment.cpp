@@ -53,12 +53,12 @@ ENVIRONMENT::~ENVIRONMENT() {
         }
         delete [] thread;
     }
+    // if ( font )       delete font;
+    if ( helpText )   delete helpText;
+    if ( screen )     delete screen;
+    if ( statsText )  delete statsText;
     if ( threadPrg )  delete [] threadPrg;
     if ( threadRun )  delete [] threadRun;
-    if ( helpText )   delete helpText;
-    if ( statsText )  delete statsText;
-    if ( screen )     delete screen;
-    if ( font )       delete font;
 }
 
 /// @brief simple function that finishes and clears all threads

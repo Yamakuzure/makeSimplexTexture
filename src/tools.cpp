@@ -63,10 +63,14 @@ int32_t initSFML( ENVIRONMENT* env ) {
                     env->fontSize = 12;
                 else {
                     cerr << "Failed to load \"" << FONT_PATH << FONT_SEP << FONT_NAME << "\"\n";
-                    if ( env->font ) delete env->font;
+                    if ( env->font ) {
+                        delete env->font;
+                        env->font = nullptr;
+                    }
                 }
             } catch ( std::bad_alloc& e ) {
                 cerr << "Error creating font : " << e.what() << endl;
+                return EXIT_FAILURE;
             }
         } else
             cerr << "No font specified!\n";

@@ -47,6 +47,7 @@ using pwx::eArgTargetType::ATT_TRUE;
 int32_t processArguments( ENVIRONMENT* env, int argc, char* argv[] ) {
     int32_t result = EXIT_SUCCESS;
     assert( env );
+    setGlobalEnv( env );
 
     // -- normal arguments ---
     PAH.addArg( "", "--height",       ATT_SET, &env->scrHeight, "Set window height (minimum 480)", "height" );
@@ -119,8 +120,8 @@ int32_t processArguments( ENVIRONMENT* env, int argc, char* argv[] ) {
     if ( 0 != PAH.getErrorCount() ) {
         result = EXIT_FAILURE;
         cout << "The following errors occurred:" << endl;
-        for ( int32_t i = 0; i < PAH.getErrorCount(); ++i )
-            cout << pwx::CAdjRight( 2,0 ) << ( i + 1 ) << ".: " << PAH.getError( i ) << endl;
+        for ( int32_t i = 1; i <= PAH.getErrorCount(); ++i )
+            cout << pwx::CAdjRight( 2,0 ) << i << ".: " << PAH.getErrorStr( i ) << endl;
         cout << endl;
         showHelp( env );
     } else {
@@ -164,7 +165,7 @@ int32_t processArguments( ENVIRONMENT* env, int argc, char* argv[] ) {
 }
 
 void showHelp( ENVIRONMENT* env ) {
-    int32_t dpw = 68; // Description print width
+    int32_t dpw = 74; // Description print width
 
     cout << "getMakeSimplexTexture - ";
     showVersion( env );
@@ -177,72 +178,75 @@ void showHelp( ENVIRONMENT* env ) {
     cout << "a 800x600 window, generate one texture, and wait for a" << endl;
     cout << "keypress." << endl;
     cout << endl << "  Options:" << endl;
-    cout << "x/y/z/w <value>           Set offset of the specified dimension." << endl;
-    cout << "        All four dimensions default to 0.0 and use a stepping of one" << endl;
-    cout << "        per pixel, modified by zoom which defaults to 9.0. (This" << endl;
-    cout << "        means every pixel raises x and/or y by 1.0 / 9.0)" << endl;
-    cout << "        To use z, you have to set 3D or 4D, to use w 4D is needed." << endl;
-    cout << "        See \"sequence patterns\" below about how to control z and w." << endl;
-    cout << "3D / 4D                   Enable third/fourth dimension" << endl;
-    PAH.getHelpStr( "-B", dpw, 2 );
-    PAH.getHelpStr( "-h", dpw, 2 );
-    PAH.getHelpStr( "-l", dpw, 2 );
-    cout << "        The borders are the limit under/over which value the low and" << endl;
-    cout << "        high color are set. The middle color is always set in the" << endl;
-    cout << "        middle between those borders. The default sequence for" << endl;
-    cout << "        low->mid->high is -1.0->0.0->+1.0" << endl;
-    PAH.getHelpStr( "-H", dpw, 2 );
-    PAH.getHelpStr( "-M", dpw, 2 );
-    PAH.getHelpStr( "-L", dpw, 2 );
-    cout << "        Colors are needed as 0xRRGGBB and default to " << endl;
-    cout << "        0xffff00 for colHi, 0x7f7f00 for colMid and" << endl;
-    cout << "        0x000000 for colLow" << endl;
-    PAH.getHelpStr( "-e", dpw, 2 );
-    PAH.getHelpStr( "--height", dpw, 2 );
-    PAH.getHelpStr( "--help", dpw, 2 );
-    PAH.getHelpStr( "-n", dpw, 2 );
-    PAH.getHelpStr( "-q", dpw, 2 );
-    PAH.getHelpStr( "-R", dpw, 2 );
-    PAH.getHelpStr( "-s", dpw, 2 );
-    PAH.getHelpStr( "-S", dpw, 2 );
-    PAH.getHelpStr( "-t", dpw, 2 );
-    PAH.getHelpStr( "--version", dpw, 2 );
-    PAH.getHelpStr( "--width", dpw, 2 );
-    PAH.getHelpStr( "-W", dpw, 2 );
-    PAH.getHelpStr( "-Z", dpw, 2 );
+    cout << "  -x|y|z|w <value>         Set offset of the specified dimension." << endl;
+    cout << "                           All four dimensions default to 0.0 and use a" << endl;
+    cout << "                           stepping of one per pixel, modified by zoom" << endl;
+    cout << "                           which defaults to 9.0. (This means every" << endl;
+    cout << "                           pixel raises x and/or y by 1.0 / 9.0) To use" << endl;
+    cout << "                           z, you have to set 3D or 4D, to use w 4D is" << endl;
+    cout << "                           needed. See \"sequence patterns\" below about" << endl;
+    cout << "                           how to control z and w." << endl;
+    cout << "      --3D|4D              Enable third/fourth dimension" << endl;
+    cout << PAH.getHelpStr( "-B", dpw, 2 ) << endl;
+    cout << PAH.getHelpStr( "-h", dpw, 2 ) << endl;
+    cout << PAH.getHelpStr( "-l", dpw, 2 ) << endl;
+    cout << "                           The borders are the limit under/over which" << endl;
+    cout << "                           value the low and high color are set. The" << endl;
+    cout << "                           middle color is always set in the middle" << endl;
+    cout << "                           between those borders. The default sequence" << endl;
+    cout << "                           for low->mid->high is -1.0->0.0->+1.0" << endl;
+    cout << PAH.getHelpStr( "-H", dpw, 2 ) << endl;
+    cout << PAH.getHelpStr( "-M", dpw, 2 ) << endl;
+    cout << PAH.getHelpStr( "-L", dpw, 2 ) << endl;
+    cout << "                           Colors are needed as 0xRRGGBB and default to" << endl;
+    cout << "                           0xffff00 for colHi, 0x7f7f00 for colMid and" << endl;
+    cout << "                           0x000000 for colLow" << endl;
+    cout << PAH.getHelpStr( "-e", dpw, 2 ) << endl;
+    cout << PAH.getHelpStr( "--height", dpw, 2 ) << endl;
+    cout << PAH.getHelpStr( "--help", dpw, 2 ) << endl;
+    cout << PAH.getHelpStr( "-n", dpw, 2 ) << endl;
+    cout << PAH.getHelpStr( "-q", dpw, 2 ) << endl;
+    cout << PAH.getHelpStr( "-R", dpw, 2 ) << endl;
+    cout << PAH.getHelpStr( "-s", dpw, 2 ) << endl;
+    cout << PAH.getHelpStr( "-S", dpw, 2 ) << endl;
+    cout << PAH.getHelpStr( "-t", dpw, 2 ) << endl;
+    cout << PAH.getHelpStr( "--version", dpw, 2 ) << endl;
+    cout << PAH.getHelpStr( "--width", dpw, 2 ) << endl;
+    cout << PAH.getHelpStr( "-W", dpw, 2 ) << endl;
+    cout << PAH.getHelpStr( "-Z", dpw, 2 ) << endl;
     cout << endl << "The next set of arguments can be used to change the modifiers for" << endl;
     cout << "the coordinates." << endl;
-    cout << "Changing the modifier for w and/or z may lead to very strange results, because" << endl;
-    cout << "they are used with the *IncMod* sequence patterns, too." << endl;
-    cout << "      [--]mod<zw>   <value> change the modification value for z or w" << endl;
+    cout << "Changing the modifier for w and/or z may lead to very strange results," << endl;
+    cout << "because they are used with the *IncMod* sequence patterns, too." << endl;
+    cout << "      --mod<zw> <value>  Change the modification value for z or w" << endl;
     cout << endl << "  Sequence Patterns:" << endl;
     cout << "The following options may be added to command line options or set" << endl;
     cout << "via alt-z or alt-w at runtime. w and z are static values by default." << endl;
     cout << " (to keep the output short, <xy> means either x or y.)" << endl;
-    cout << " <wz>IncMod<XYZW> w/z is increased whenever x/y/z/w is modified" << endl;
-    cout << " <wz>Is<XYZW>     Set w/z to be equal to x/y/z/w" << endl;
-    cout << " <wz>IsXY         Set w/z to be equal to x * y" << endl;
-    cout << " <wz>IsXYd<ZW>    Set w/z to be equal to (x * y) / <ZW>" << endl;
-    cout << " <wz>IsXYm<ZW>    Set w/z to be equal to (x * y) % <ZW>" << endl;
-    cout << " <wz>Is<XY>d<YX>  Set w/z to be either x / y or y / x" << endl;
-    cout << " <wz>IsXaY        Set w/z to be equal to x + y" << endl;
-    cout << " <wz>Is<XY>s<YX>  Set w/z to be either x - y or y - x" << endl;
-    cout << " <wz>Is<XY>m<YX>  Set w/z to be either x % y or y % x" << endl;
+    cout << "  <wz>IncMod<XYZW>         w/z is increased whenever x/y/z/w is modified" << endl;
+    cout << "  <wz>Is<XYZW>             Set w/z to be equal to x/y/z/w" << endl;
+    cout << "  <wz>IsXY                 Set w/z to be equal to x * y" << endl;
+    cout << "  <wz>IsXYd<ZW>            Set w/z to be equal to (x * y) / <ZW>" << endl;
+    cout << "  <wz>IsXYm<ZW>            Set w/z to be equal to (x * y) % <ZW>" << endl;
+    cout << "  <wz>Is<XY>d<YX>          Set w/z to be either x / y or y / x" << endl;
+    cout << "  <wz>IsXaY                Set w/z to be equal to x + y" << endl;
+    cout << "  <wz>Is<XY>s<YX>          Set w/z to be either x - y or y - x" << endl;
+    cout << "  <wz>Is<XY>m<YX>          Set w/z to be either x % y or y % x" << endl;
     cout << endl << "  GUI key mapping:" << endl;
-    cout << "CURSOR: modify x with left/right, y with up/down cursor keys" << endl;
-    cout << "d/D   : increase/decrease dimensions (2-4)" << endl;
-    cout << "ESC   : quit program" << endl;
-    cout << "h     : show on-screen help" << endl;
+    cout << "CURSOR: Modify x with left/right, y with up/down cursor keys" << endl;
+    cout << "d/D   : Increase/decrease dimensions (2-4)" << endl;
+    cout << "ESC   : Quit program" << endl;
+    cout << "h     : Show on-screen help" << endl;
     cout << "R     : Render image with current settings" << endl;
-    cout << "s     : save current texture (and bumpmap unless -n is specified)" << endl;
-    cout << "SPACE : switch between texture and bumpmap. This does only work" << endl;
-    cout << "        if the -n/no-bumpmap isn't used." << endl;
+    cout << "s     : Save current texture (and bumpmap unless -n is specified)" << endl;
+    cout << "SPACE : Switch between texture and bumpmap. This does only work if the" << endl;
+    cout << "          -n/no-bumpmap option isn't used." << endl;
     cout << "TAB   : Show stats of the current image" << endl;
-    cout << "w/W   : increase/decrease offset w by mod w. (defaults to 1.0)" << endl;
-    cout << "        press ctrl to increase/decrease with 10 times mod w." << endl;
-    cout << "        press alt to toggle w coordinate sequence setting." << endl;
-    cout << "z/Z   : increase/decrease offset z by mod z. (defaults to 1.0)" << endl;
-    cout << "        press alt to toggle z coordinate sequence setting." << endl;
+    cout << "w/W   : Increase/decrease offset w by mod w. (defaults to 1.0)" << endl;
+    cout << "        Press ctrl to increase/decrease with 10 times mod w." << endl;
+    cout << "        Press alt to toggle w coordinate sequence setting." << endl;
+    cout << "z/Z   : Increase/decrease offset z by mod z. (defaults to 1.0)" << endl;
+    cout << "        Press alt to toggle z coordinate sequence setting." << endl;
 }
 
 void showVersion( ENVIRONMENT* env ) {

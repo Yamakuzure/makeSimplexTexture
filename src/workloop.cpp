@@ -31,36 +31,35 @@
  **/
 
 
+#include <chrono>
+#include <thread>
+
 #include "workloop.h"
-#if defined(_MSC_VER)
-#  include <stdlib.h>
-#else
-#  include <unistd.h>
-#endif // geting sleep()
+
 
 int32_t workLoop( ENVIRONMENT* env ) {
     int32_t   result  = EXIT_SUCCESS;
     bool      done    = false;
     bool      render  = false;
-    double    elapsed = 0.0;
+    int32_t   elapsed = 0;
     sf::Event event;
     sf::Clock clock;
     sf::Event::KeyEvent key;
 
-    while ( !done && ( EXIT_SUCCESS == result ) && env->screen->IsOpened() ) {
+    while ( !done && ( EXIT_SUCCESS == result ) && env->screen->isOpen() ) {
         /* ======================== *
          * === A) Proces events === *
          * ======================== */
         // message processing loop
-        while ( env->screen->GetEvent( event ) ) {
+        while ( env->screen->pollEvent( event ) ) {
             /// 1.: Check whether to quit:
-            if ( sf::Event::Closed == event.Type ) {
-                env->screen->Close();
+            if ( sf::Event::Closed == event.type ) {
+                env->screen->close();
                 done = true;
             }
 
             /// 2.: Check Key presses:
-            else if ( sf::Event::KeyPressed == event.Type ) {
+            else if ( sf::Event::KeyPressed == event.type ) {
                 if ( env->helpBoxShown ) {
                     // This only switches back to the image:
                     env->helpBoxShown = false;
@@ -71,48 +70,48 @@ int32_t workLoop( ENVIRONMENT* env ) {
                     env->removeBox    = true;
                 } else {
                     // Otherwise process key presses:
-                    key = event.Key;
-                    switch ( key.Code ) {
-                        case sf::Key::Left:
-                            env->offX -= key.Control ? 10.0 : 1.0;
+                    key = event.key;
+                    switch ( key.code ) {
+                        case sf::Keyboard::Left:
+                            env->offX -= key.control ? 10.0 : 1.0;
                             showMsg( env, "New Offset X: %g", env->offX );
                             break;
-                        case sf::Key::Right:
-                            env->offX += key.Control ? 10.0 : 1.0;
+                        case sf::Keyboard::Right:
+                            env->offX += key.control ? 10.0 : 1.0;
                             showMsg( env, "New Offset X: %g", env->offX );
                             break;
-                        case sf::Key::Down:
-                            env->offY -= key.Control ? 10.0 : 1.0;
+                        case sf::Keyboard::Down:
+                            env->offY -= key.control ? 10.0 : 1.0;
                             showMsg( env, "New Offset Y: %g", env->offY );
                             break;
-                        case sf::Key::Up:
-                            env->offY += key.Control ? 10.0 : 1.0;
+                        case sf::Keyboard::Up:
+                            env->offY += key.control ? 10.0 : 1.0;
                             showMsg( env, "New Offset Y: %g", env->offY );
                             break;
-                        case sf::Key::Escape:
-                            env->screen->Close();
+                        case sf::Keyboard::Escape:
+                            env->screen->close();
                             done = true;
                             break;
-                        case sf::Key::H:
+                        case sf::Keyboard::H:
                             result = showOSHelp( env );
                             break;
-                        case sf::Key::S:
+                        case sf::Keyboard::S:
                             result = saveTexture( env );
                             break;
-                        case sf::Key::Space:
+                        case sf::Keyboard::Space:
                             result = swapImage( env );
                             break;
-                        case sf::Key::Tab:
+                        case sf::Keyboard::Tab:
                             result = showOSStat( env );
                             break;
-                        case sf::Key::R:
-                            if ( key.Shift )
+                        case sf::Keyboard::R:
+                            if ( key.shift )
                                 render = true;
                             break;
-                        case sf::Key::W:
-                            if ( key.Alt ) {
+                        case sf::Keyboard::W:
+                            if ( key.alt ) {
                                 // Change sequence pattern
-                                if ( key.Shift )
+                                if ( key.shift )
                                     env->seqW--;
                                 else
                                     env->seqW++;
@@ -120,17 +119,17 @@ int32_t workLoop( ENVIRONMENT* env ) {
                             } // end of changing sequence
                             else {
                                 // change offset
-                                if ( key.Shift )
-                                    env->offW -= key.Control ? 10.0 * env->modW : env->modW;
+                                if ( key.shift )
+                                    env->offW -= key.control ? 10.0 * env->modW : env->modW;
                                 else
-                                    env->offW += key.Control ? 10.0 * env->modW : env->modW;
+                                    env->offW += key.control ? 10.0 * env->modW : env->modW;
                                 showMsg( env, "New Offset W: %g", env->offW );
                             } // end of changing offset
                             break;
-                        case sf::Key::Z:
-                            if ( key.Alt ) {
+                        case sf::Keyboard::Z:
+                            if ( key.alt ) {
                                 // Change sequence pattern
-                                if ( key.Shift ) {
+                                if ( key.shift ) {
                                     env->seqZ--;
                                     while ( ( env->dimensions < 4 )
                                             &&( ( env->seqZ == eiZincW )
@@ -153,15 +152,15 @@ int32_t workLoop( ENVIRONMENT* env ) {
                             } // End of changing sequence
                             else {
                                 // change offset
-                                if ( key.Shift )
-                                    env->offZ -= key.Control ? 10.0 * env->modZ : env->modZ;
+                                if ( key.shift )
+                                    env->offZ -= key.control ? 10.0 * env->modZ : env->modZ;
                                 else
-                                    env->offZ += key.Control ? 10.0 * env->modZ : env->modZ;
+                                    env->offZ += key.control ? 10.0 * env->modZ : env->modZ;
                                 showMsg( env, "New Offset Z: %g", env->offZ );
                             } // End of changing offset
                             break;
-                        case sf::Key::D:
-                            if ( key.Shift )
+                        case sf::Keyboard::D:
+                            if ( key.shift )
                                 env->dimensions -= env->dimensions > 2 ? 1 : 0;
                             else
                                 env->dimensions += env->dimensions < 4 ? 1 : 0;
@@ -178,49 +177,51 @@ int32_t workLoop( ENVIRONMENT* env ) {
         if ( env->msgShown < 0 ) {
             // Yes...
             env->msgShown = 1;
-            clock.Reset();
-            elapsed = 0.0;
+            clock.restart();
+            elapsed = 0;
         }
         // We have to reset the elapsed time if we show the help or stat box,
         // those should not disappear automatically:
-        else if ( ( elapsed > 5.0 )
+        else if ( ( elapsed > 5 )
                   && ( env->helpBoxShown || env->statBoxShown ) ) {
-            elapsed = 0.0;
-            clock.Reset();
+            elapsed = 0;
+            clock.restart();
         }
         // Otherwise pick up the time:
         else
-            elapsed = clock.GetElapsedTime();
+            elapsed = static_cast<int32_t>( clock.getElapsedTime().asMilliseconds() );
 
         /* ======================== *
          * === B) draw screen   === *
          * ======================== */
         if ( EXIT_SUCCESS == result && !done
-                && ( ( elapsed > 5.0 && env->msgShown ) || env->helpBoxShown || env->statBoxShown || env->removeBox ) ) {
-            env->screen->Clear();
+                && ( ( elapsed > 5 && env->msgShown ) || env->helpBoxShown || env->statBoxShown || env->removeBox ) ) {
+
+            env->texture.loadFromImage( env->image );
+            env->screen->clear();
             // The textboxes are drawn over the image
-            env->screen->Draw( sf::Sprite( env->image ) );
+            env->screen->draw( sf::Sprite( env->texture ) );
             if ( env->helpBoxShown ) {
                 sf::Texture boxTex;
                 boxTex.loadFromImage( *( env->helpText->txtBox ) );
-                sf::Sprite box( boxTex, sf::Vector2f( 5.0, 5.0 ) );
-                env->screen->Draw( box );
+                sf::Sprite box( boxTex, sf::IntRect( 5, 5, env->scrWidth - 5, env->scrHeight - 5 ) );
+                env->screen->draw( box );
                 for ( int i = 0; i < env->helpText->txtSize; ++i )
-                    env->screen->Draw( env->helpText->txtContent[i] );
+                    env->screen->draw( env->helpText->txtContent[i] );
             } else if ( env->statBoxShown ) {
                 sf::Texture boxTex;
                 boxTex.loadFromImage( *( env->statsText->txtBox ) );
-                sf::Sprite box( boxTex, sf::Vector2f( 5.0, 5.0 ) );
-                env->screen->Draw( box );
+                sf::Sprite box( boxTex, sf::IntRect( 5, 5, env->scrWidth - 5, env->scrHeight - 5 ) );
+                env->screen->draw( box );
                 for ( int i = 0; i < env->statsText->txtSize; ++i )
-                    env->screen->Draw( env->statsText->txtContent[i] );
+                    env->screen->draw( env->statsText->txtContent[i] );
             } else {
                 // we have a reset.
                 env->msgShown  = 0;
                 env->removeBox = false;
             }
             // finally, update the screen
-            env->screen->Display();
+            env->screen->display();
         }
 
         /* ======================== *
@@ -236,7 +237,8 @@ int32_t workLoop( ENVIRONMENT* env ) {
             if ( render )
                 render = false;
             else
-                pwx_sleep( 100 ); // I daresay ten polls per second should be enough.
+                // I daresay ten polls per second should be enough.
+                std::this_thread::sleep_for( std::chrono::milliseconds( 100 - elapsed ) );
         }
     } // end main loop
 

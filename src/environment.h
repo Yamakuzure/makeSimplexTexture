@@ -8,7 +8,7 @@
  * (c) 2007 - 2018 PrydeWorX
  * @author Sven Eden, PrydeWorX - Bardowick, Germany
  *         sven.eden@prydeworx.com
- *         https://github.com/Yamakuzure/makeSimplexTexture ; https://prydeworx.com/makeSimplexTexture
+ *         https://github.com/Yamakuzure/makeSimplexTexture; https://prydeworx.com/makeSimplexTexture
  *
  * makeSimplexTexture is free software under MIT License
  *
@@ -61,56 +61,56 @@ class CStatsText;
   * @brief struct to keep general values together that are used in the programs functions
 **/
 struct ENVIRONMENT: public pwx::CLockable {
-    double            borderHi;    //!< Upper border, defaults to the simplex maximum of  1.0
-    double            borderLo;    //!< Lower border, defaults to the simplex minimum of -1.0
-    double            borderMid;   //!< Middle border, set to the median of the lower and upper border
-    sf::Image         bumpMap;     //!< Optional bumpmapping for the generated texture
-    sf::Color         colHi;       //!< Must have color, if alone uses the full range, otherwise the positive Simplex value
-    sf::Color         colMid;      //!< optional middle color, takes over the zero value
-    sf::Color         colLow;      //!< optional low color, takes over negative colors
-    bool              colLowEmpty; //!< set to false if the user sets a color via command line
-    bool              colMidEmpty; //!< set to false if the user sets a color via command line
-    int32_t           dimensions;  //!< can be 2, 3 or 4
-    bool              doWork;      //!< is set to false if no work is to be done
-    sf::Font*         font;        //!< The font to be used for the display
-    float             fontSize;    //!< Base size of the font, used to determine the text box sizes
-    bool              helpBoxShown;//!< set to true if the help box is shown
-    CHelpText*        helpText;    //!< Help text for OS display
-    sf::Image         image;       //!< The image to be rendered
-    int32_t           imageNum;    //!< used to count the available images, to not overwrite one
-    char              imgMsg[256]; //!< used to display the stats of the current image
-    bool              mainShown;   //!< True if the texture, false if the bumpmap is shown on screen
-    double            modZ;        //!< modification value for offZ, used for z/Z key and iterations (default 1.0)
-    double            modW;        //!< modification value for offW, used for w/W key and iterations (default 1.0)
-    char              msg[256];    //!< message to display in the window title
-    int32_t           msgShown;    //!< showMsg sets to -1, workLoop then triggers timer and sets to 1, showState sets to 0
-    int32_t           numThreads;  //!< Number of threads to spawn for the render calculations. Default is 8
-    double            offX;        //!< x-offset
-    double            offY;        //!< y-offset
-    double            offZ;        //!< z-offset enabled by dimension >= 3
-    double            offW;        //!< w-offset enabled by dimension == 4
-    bool              removeBox;   //!< Set to true if a txtBox is shown than shall be removed
-    sf::RenderWindow* screen;      //!< the screen to be created
-    int32_t           scrHeight;   //!< height of the screen
-    int32_t           scrSize;     //!< simply a shortcut to height * width
-    int32_t           scrWidth;    //!< screen width
-    eSequenceW        seqW;        //!< determines the sequence of the w coordinate
-    eSequenceZ        seqZ;        //!< determines the sequence of the z coordinate
-    double            spxRedu;     //!< Simplex Reduction Value, defaults to 1.0
-    double            spxSmoo;     //!< Simplex Smooth Value, defaults to 1.0
-    int32_t           spxWave;     //!< Simplex Waves Value, defaults to 1
-    double            spxZoom;     //!< Simplex Zoom, defaults to 4.0
-    bool              statBoxShown;//!< set to true if the stats box is shown
-    CStatsText*       statsText;   //!< Text to display by showOSStat()
-    int32_t           seed;        //!< If set by command line argument, sets a new seed for RNG
-    string            targetExt;   //!< target extension, determines image type
+    double            borderHi    = 1.0;    //!< Upper border, defaults to the simplex maximum of  1.0
+    double            borderLo    = -1.0;   //!< Lower border, defaults to the simplex minimum of -1.0
+    double            borderMid   = 0.0;    //!< Middle border, set to the median of the lower and upper border
+    sf::Image         bumpMap;              //!< Optional bumpmapping for the generated texture
+    sf::Color         colHi       = { 255, 255, 0 };//!< Must have color, if alone uses the full range, otherwise the positive Simplex value
+    sf::Color         colMid      = { 0, 0, 0 };//!< optional middle color, takes over the zero value
+    sf::Color         colLow      = { 0, 0, 0 };//!< optional low color, takes over negative colors
+    bool              colLowEmpty = true;   //!< set to false if the user sets a color via command line
+    bool              colMidEmpty = true;   //!< set to false if the user sets a color via command line
+    int32_t           dimensions  = 2;      //!< can be 2, 3 or 4
+    bool              doWork      = true;   //!< is set to false if no work is to be done
+    sf::Font*         font        = nullptr;//!< The font to be used for the display
+    float             fontSize    = 12.f;   //!< Base size of the font, used to determine the text box sizes
+    bool              helpBoxShown= false;  //!< set to true if the help box is shown
+    CHelpText*        helpText    = nullptr;//!< Help text for OS display
+    sf::Image         image;                //!< The image to be rendered
+    int32_t           imageNum    = 0;      //!< used to count the available images, to not overwrite one
+    char              imgMsg[256] = { 0 };  //!< used to display the stats of the current image
+    bool              mainShown   = true;   //!< True if the texture, false if the bumpmap is shown on screen
+    double            modZ        = 1.0;    //!< modification value for offZ, used for z/Z key and iterations (default 1.0)
+    double            modW        = 1.0;    //!< modification value for offW, used for w/W key and iterations (default 1.0)
+    char              msg[256]    = { 0 };  //!< message to display in the window title
+    int32_t           msgShown    = 0;      //!< showMsg sets to -1, workLoop then triggers timer and sets to 1, showState sets to 0
+    int32_t           numThreads  = 8;      //!< Number of threads to spawn for the render calculations. Default is 8
+    double            offX        = 0.0;    //!< x-offset
+    double            offY        = 0.0;    //!< y-offset
+    double            offZ        = 0.0;    //!< z-offset enabled by dimension >= 3
+    double            offW        = 0.0;    //!< w-offset enabled by dimension == 4
+    bool              removeBox   = false;  //!< Set to true if a txtBox is shown than shall be removed
+    sf::RenderWindow* screen      = nullptr;//!< the screen to be created
+    int32_t           scrHeight   = 600;    //!< height of the screen
+    int32_t           scrSize     = 480000; //!< simply a shortcut to height * width
+    int32_t           scrWidth    = 800;    //!< screen width
+    eSequenceW        seqW        = eiWNone;//!< determines the sequence of the w coordinate
+    eSequenceZ        seqZ        = eiZNone;//!< determines the sequence of the z coordinate
+    double            spxRedu     = 1.0;    //!< Simplex Reduction Value, defaults to 1.0
+    double            spxSmoo     = 1.0;    //!< Simplex Smooth Value, defaults to 1.0
+    int32_t           spxWave     = 1;      //!< Simplex Waves Value, defaults to 1
+    double            spxZoom     = 9.0;    //!< Simplex Zoom, defaults to 4.0
+    bool              statBoxShown= false;  //!< set to true if the stats box is shown
+    CStatsText*       statsText   = nullptr;//!< Text to display by showOSStat()
+    int32_t           seed        = 0;      //!< If set by command line argument, sets a new seed for RNG
+    string            targetExt   = "png";  //!< target extension, determines image type
     sf::Texture       texture;     //!< Graphics memory to render.
-    sf::Thread**      thread;      //!< The threads themselves.
-    int32_t*          threadPrg;   //!< Threads write their progress in this
-    bool*             threadRun;   //!< Threads set it to true when they start and to false when they end
-    bool              verbose;     //!< if set to false (-q/--quiet) when batch mode is enabled, nothing is printed out
-    bool              withBump;    //!< Save a textureXXXX.bump.tif alongside the original texture. Defaults to true!
-    bool              withGUI;     //!< When set to false by -B/--batch option, no SDL is used
+    sf::Thread**      thread      = nullptr;//!< The threads themselves.
+    int32_t*          threadPrg   = nullptr;//!< Threads write their progress in this
+    bool*             threadRun   = nullptr;//!< Threads set it to true when they start and to false when they end
+    bool              verbose     = true;   //!< if set to false (-q/--quiet) when batch mode is enabled, nothing is printed out
+    bool              withBump    = true;   //!< Save a textureXXXX.bump.tif alongside the original texture. Defaults to true!
+    bool              withGUI     = true;   //!< When set to false by -B/--batch option, no SDL is used
 
     /* --- non-struct methods --- */
     void         clearThreads();
@@ -338,25 +338,12 @@ struct ENVIRONMENT: public pwx::CLockable {
     }
 
   private:
-    string version;
+    string version = VERSION;
 
   public:
     /** @brief Default constructor **/
-    explicit ENVIRONMENT( int32_t aSeed = 0 ):
-        borderHi( 1.0 ),borderLo( -1.0 ),borderMid( 0.0 ),
-        bumpMap( {} ),
-             colHi( 255, 255, 0 ),colMid( 0, 0, 0 ),colLow( 0, 0, 0 ),
-             colLowEmpty( true ),colMidEmpty( true ),
-             dimensions( 2 ),doWork( true ),font( NULL ),fontSize( 12. ),helpBoxShown( false ),helpText( NULL ),
-             image( {} ),
-             imageNum( 0 ),mainShown( true ),modZ( 1.0 ),modW( 1.0 ),
-             msgShown( 0 ),numThreads( 8 ), offX( 0.0 ),offY( 0.0 ),offZ( 0.0 ),offW( 0.0 ),removeBox( false ),
-             screen( NULL ),scrHeight( 600 ),scrSize( 480000 ),scrWidth( 800 ),
-             seqW( eiWNone ),seqZ( eiZNone ),spxRedu( 1.0 ),spxSmoo( 1.0 ),spxWave( 1 ),spxZoom( 9.0 ),
-             statBoxShown( false ),statsText( NULL ),
-             seed( aSeed ),targetExt( "png" ),thread( NULL ), threadPrg( NULL ), threadRun( NULL ),
-             verbose( true ),withBump( true ),withGUI( true ),
-    version( "0.8.6" ) {
+    explicit ENVIRONMENT( int32_t aSeed = 0 )
+        : seed( aSeed ) {
         memset( msg, 0, 256 );
         memset( imgMsg, 0, 256 );
 

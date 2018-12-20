@@ -31,7 +31,10 @@
  **/
 
 
+#include <cstdint>
+
 #include "wzseq.h"
+
 
 eSequenceZ operator++( eSequenceZ& seq, int32_t ) {
     eSequenceZ oldSeq = seq;

@@ -50,7 +50,7 @@ struct ENVIRONMENT; // Forward declaration
 #  define FONT_SEP "\\"
 #else
 #  if !defined(FONT_PATH)
-#    define FONT_PATH "/usr/share/fonts/freefont-ttf"
+#    define FONT_PATH "/usr/share/fonts/freefont"
 #  endif // font path
 #  if !defined(FONT_NAME)
 #    define FONT_NAME "FreeMono.ttf"
