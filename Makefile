@@ -27,14 +27,24 @@ FONT_NAME ?= FreeMono.ttf
 
 
 # ------------------------------------
+# Save environment values 
+# ------------------------------------
+ENV_CPPFLAGS := ${CPPFLAGS}
+ENV_CXXFLAGS := ${CXXFLAGS}
+ENV_LDFLAGS  := ${LDFLAGS}
+
+
+# ------------------------------------
 # Tools and Flags
 # ------------------------------------
 CXX      ?= $(shell which g++)
-CXXFLAGS += -std=c++17 -Wall -Wextra -Wpedantic -fexceptions -pthread
-CPPFLAGS += $(shell pkg-config --cflags pwxlib) $(shell pkg-config --cflags sfml-graphics)
-CPPFLAGS += -DVERSION=\"${VERSION}\" -DFONT_PATH=\"$(FONT_PATH)\" -DFONT_NAME=\"$(FONT_NAME)\"
+CXXFLAGS := -std=c++17 -Wall -Wextra -Wpedantic -fexceptions -pthread $(ENV_CXXFLAGS)
+CPPFLAGS := $(ENV_CPPFLAGS) $(shell pkg-config --cflags pwxlib) \
+$(shell pkg-config --cflags sfml-graphics) \
+-DVERSION=\"${VERSION}\" -DFONT_PATH=\"$(FONT_PATH)\" -DFONT_NAME=\"$(FONT_NAME)\"
 INSTALL  := $(shell which install)
-LDFLAGS  += $(shell pkg-config --libs pwxlib) $(shell pkg-config --libs sfml-graphics) -lpthread
+LDFLAGS  += $(ENV_LDFLAGS) $(shell pkg-config --libs pwxlib) \
+$(shell pkg-config --libs sfml-graphics) -lpthread
 RM       := $(shell which rm) -f
 SED      := $(shell which sed)
 TARGET   := mkst
