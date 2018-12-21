@@ -54,20 +54,20 @@ void argCallBack ( char const* arg, char const* val ) {
         global_env->doWork = false;
     } else if ( STREQ( "-H", arg ) || STREQ( "--colhi", arg ) ) {
         uint32_t value = std::stoul( val, nullptr, 16 );
-        pwx::debug_log( "HiCol: Converted \"%s\" into %u\n", val, value );
+        DEBUG_LOG( "argCallBack", "HiCol: Converted \"%s\" into %u\n", val, value );
         global_env->colHi.r = static_cast<uint8_t>( ( value & 0xff0000 ) >> 16 );
         global_env->colHi.g = static_cast<uint8_t>( ( value & 0x00ff00 ) >>  8 );
         global_env->colHi.b = static_cast<uint8_t>( value & 0x0000ff );
     } else if ( STREQ( "-L", arg ) || STREQ( "--collow", arg ) ) {
         uint32_t value = std::stoul( val, nullptr, 16 );
-        pwx::debug_log( "LoCol: Converted \"%s\" into %u\n", val, value );
+        DEBUG_LOG( "argCallBack", "LoCol: Converted \"%s\" into %u\n", val, value );
         global_env->colLow.r = static_cast<uint8_t>( ( value & 0xff0000 ) >> 16 );
         global_env->colLow.g = static_cast<uint8_t>( ( value & 0x00ff00 ) >>  8 );
         global_env->colLow.b = static_cast<uint8_t>( value & 0x0000ff );
         global_env->colLowEmpty = true;
     } else if ( STREQ( "-M", arg ) || STREQ( "--colmid", arg ) ) {
         uint32_t value = std::stoul( val, nullptr, 16 );
-        pwx::debug_log( "MiCol: Converted \"%s\" into %u\n", val, value );
+        DEBUG_LOG( "argCallBack", "MiCol: Converted \"%s\" into %u\n", val, value );
         global_env->colMid.r = static_cast<uint8_t>( ( value & 0xff0000 ) >> 16 );
         global_env->colMid.g = static_cast<uint8_t>( ( value & 0x00ff00 ) >>  8 );
         global_env->colMid.b = static_cast<uint8_t>( value & 0x0000ff );
