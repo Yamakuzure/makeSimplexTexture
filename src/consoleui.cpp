@@ -32,7 +32,6 @@
 
 
 #include <pwx_worker_PAH.h>
-#include <pwx_eArgTargetType.h>
 #include <pwxStreamHelpers.h>
 
 
@@ -50,35 +49,35 @@ int32_t processArguments( ENVIRONMENT* env, int argc, char* argv[] ) {
     setGlobalEnv( env );
 
     // -- normal arguments ---
-    PAH.addArg( "", "--height",       ATT_SET, &env->scrHeight, "Set window height (minimum 480)", "height" );
+    PAH.addArg( "", "--height",       pwx::ATT_SET, &env->scrHeight, "Set window height (minimum 480)", "height" );
     PAH.addArg( "", "--help",         argCallBack, "Show this help and exit", nullptr );
     PAH.addArg( "", "--version",      argCallBack, "Show the programs version and exit", nullptr );
-    PAH.addArg( "", "--width",        ATT_SET, &env->scrWidth, "Set window width (minimum 640)", "width" );
-    PAH.addArg( "-e", "--ext",        ATT_SET, &env->targetExt, "Set the file extension to the desired image format. The default is \"png\".", "ext" );
-    PAH.addArg( "-l", "--bordlo",     ATT_SET, &env->borderLo, "Set low border (-1.0 to 1.0)", "value" );
-    PAH.addArg( "-h", "--bordhi",     ATT_SET, &env->borderHi, "Set high border (-1.0 to 1.0)", "value" );
-    PAH.addArg( "-n", "--no-bumpmap", ATT_TRUE, &env->withBump, "Omit the calculation of a bumpmap", nullptr );
-    PAH.addArg( "-q", "--quiet",      ATT_TRUE, &env->verbose, "No output to the console", nullptr );
-    PAH.addArg( "-s", "--seed",       ATT_SET, &env->seed, "Set seed", "value" );
-    PAH.addArg( "-t", "--threads",    ATT_SET, &env->numThreads, "Set number of threads (minimum 4, default 8)", "num" );
-    PAH.addArg( "-B", "--batch",      ATT_TRUE, &env->withGUI, "Enable batch mode (no GUI)", nullptr );
+    PAH.addArg( "", "--width",        pwx::ATT_SET, &env->scrWidth, "Set window width (minimum 640)", "width" );
+    PAH.addArg( "-e", "--ext",        pwx::ATT_SET, &env->targetExt, "Set the file extension to the desired image format. The default is \"png\".", "ext" );
+    PAH.addArg( "-l", "--bordlo",     pwx::ATT_SET, &env->borderLo, "Set low border (-1.0 to 1.0)", "value" );
+    PAH.addArg( "-h", "--bordhi",     pwx::ATT_SET, &env->borderHi, "Set high border (-1.0 to 1.0)", "value" );
+    PAH.addArg( "-n", "--no-bumpmap", pwx::ATT_TRUE, &env->withBump, "Omit the calculation of a bumpmap", nullptr );
+    PAH.addArg( "-q", "--quiet",      pwx::ATT_TRUE, &env->verbose, "No output to the console", nullptr );
+    PAH.addArg( "-s", "--seed",       pwx::ATT_SET, &env->seed, "Set seed", "value" );
+    PAH.addArg( "-t", "--threads",    pwx::ATT_SET, &env->numThreads, "Set number of threads (minimum 4, default 8)", "num" );
+    PAH.addArg( "-B", "--batch",      pwx::ATT_TRUE, &env->withGUI, "Enable batch mode (no GUI)", nullptr );
     PAH.addArg( "-H", "--colhi",      argCallBack, "Set the high color", "value" );
     PAH.addArg( "-L", "--collow",     argCallBack, "Set the low color", "value" );
     PAH.addArg( "-M", "--colmid",     argCallBack, "Set the middle color", "value" );
-    PAH.addArg( "-R", "--reduct",     ATT_SET, &env->spxRedu, "Set the reduction on each wave (minimum 1.0)", "value" );
-    PAH.addArg( "-S", "--smooth",     ATT_SET, &env->spxSmoo, "Set the smoothing on each wave (minimum 1.0)", "value" );
-    PAH.addArg( "-W", "--waves",      ATT_SET, &env->spxWave, "Set number of waves (minimum 1)", "value" );
-    PAH.addArg( "-Z", "--zoom",      ATT_SET, &env->spxZoom, "Set the zoom factor (minimum 0.001)", "value" );
+    PAH.addArg( "-R", "--reduct",     pwx::ATT_SET, &env->spxRedu, "Set the reduction on each wave (minimum 1.0)", "value" );
+    PAH.addArg( "-S", "--smooth",     pwx::ATT_SET, &env->spxSmoo, "Set the smoothing on each wave (minimum 1.0)", "value" );
+    PAH.addArg( "-W", "--waves",      pwx::ATT_SET, &env->spxWave, "Set number of waves (minimum 1)", "value" );
+    PAH.addArg( "-Z", "--zoom",      pwx::ATT_SET, &env->spxZoom, "Set the zoom factor (minimum 0.001)", "value" );
 
     // --- normal options with special passages in the help text ---
     PAH.addArg( "", "--3D", argCallBack, "", nullptr );
     PAH.addArg( "", "--4D", argCallBack, "", nullptr );
-    PAH.addArg( "", "--modz", ATT_SET, &env->modZ, "", nullptr );
-    PAH.addArg( "", "--modw", ATT_SET, &env->modW, "", nullptr );
-    PAH.addArg( "-w", "", ATT_SET, &env->offW, "", nullptr );
-    PAH.addArg( "-x", "", ATT_SET, &env->offX, "", nullptr );
-    PAH.addArg( "-y", "", ATT_SET, &env->offY, "", nullptr );
-    PAH.addArg( "-z", "", ATT_SET, &env->offZ, "", nullptr );
+    PAH.addArg( "", "--modz", pwx::ATT_SET, &env->modZ, "", nullptr );
+    PAH.addArg( "", "--modw", pwx::ATT_SET, &env->modW, "", nullptr );
+    PAH.addArg( "-w", "", pwx::ATT_SET, &env->offW, "", nullptr );
+    PAH.addArg( "-x", "", pwx::ATT_SET, &env->offX, "", nullptr );
+    PAH.addArg( "-y", "", pwx::ATT_SET, &env->offY, "", nullptr );
+    PAH.addArg( "-z", "", pwx::ATT_SET, &env->offZ, "", nullptr );
 
     // --- sequential arguments ---
     // These have a special passage in the help text, so they do not need descriptions
