@@ -1,6 +1,12 @@
 makeSimplexTexture Revision History
 -----------------------------------
 
+0.8.8 - 2018-12-21
+ * The Makefile is now much more friendly to package managers building from
+   source like Gentoo portage.
+ * Added the possibility to do debug builds and activate sanitizers.
+ * Fixed a bug that made release builds impossible.
+
 0.8.7 - 2018-12-20
  * Fixed support for latest SFML
  * Fixed support for latest pwxLib

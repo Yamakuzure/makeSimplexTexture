@@ -59,6 +59,9 @@
   * 0.8.5.1   2012-03-23  sed, PrydeWorX  Fixed various Effective C++ issues
   * 0.8.5.2   2012-04-23  sed, PrydeWorX  Fixed various VC++10 issues
   * 0.8.6     2012-04-??  sed, PrydeWorX  Version bump to new pwxLib release version
+  * 0.8.7     2018-12-20  sed, PrydeWorX  First release after adapting to latest pwxLib and SFML.
+  * 0.8.8     2018-12-21  sed, PrydeWorX  Service release, improving debug and package manager
+  *                                       friendliness of the Makefile.
   @endverbatim
 **/
 
