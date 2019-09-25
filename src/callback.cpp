@@ -31,10 +31,8 @@
  **/
 
 
-#include <pwx_compiler.h>
-#include <pwx_debug.h>
-#include <pwx_macros.h>
-#include <pwxStreamHelpers.h>
+#include <PBasic>
+#include <PStreamHelpers>
 #include <string>
 
 #include "callback.h"

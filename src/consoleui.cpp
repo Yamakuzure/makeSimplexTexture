@@ -31,8 +31,8 @@
  **/
 
 
-#include <pwx_worker_PAH.h>
-#include <pwxStreamHelpers.h>
+#include <PAH>
+#include <PStreamHelpers>
 
 
 #include "consoleui.h"

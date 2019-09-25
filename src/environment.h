@@ -34,8 +34,7 @@
  **/
 
 
-#include <pwxCLockable.h>
-#include <pwx_macros.h>
+#include <PBasic>
 
 #include <iostream>
 using std::cout;

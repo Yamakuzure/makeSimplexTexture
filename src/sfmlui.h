@@ -38,7 +38,7 @@
 // This header adds some methods that are used by the workLoop only
 
 
-#include <pwx_compiler.h>
+#include <PBasic>
 
 
 #include "main.h"

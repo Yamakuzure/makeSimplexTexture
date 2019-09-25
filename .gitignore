@@ -31,3 +31,7 @@
 *.out
 *.app
 mkst
+
+# Temporary and Backup files
+*.bak
+*~

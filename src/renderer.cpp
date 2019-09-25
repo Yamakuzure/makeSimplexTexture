@@ -32,8 +32,8 @@
 
 
 #include <chrono>
-#include <pwxMathHelpers.h>
-#include <pwx_worker_RNG.h>
+#include <PMath>
+#include <RNG>
 #include <thread>
 
 #include "renderer.h"
