@@ -3,14 +3,16 @@
 	<FileVersion major="1" minor="6" />
 	<Project>
 		<Option title="makeSimplexTexture" />
+		<Option makefile_is_custom="1" />
+		<Option execution_dir="." />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="..\..\mkst" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="..\..\" />
-				<Option object_output=".\.objdbg\" />
-				<Option type="1" />
+				<Option output="./mkst" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="./" />
+				<Option object_output="./.objdbg/" />
+				<Option type="0" />
 				<Option compiler="gcc" />
 				<Option parameters="width 640 height 480" />
 				<Compiler>
@@ -23,33 +25,19 @@
 				<Linker>
 					<Add option="-pg" />
 				</Linker>
+				<MakeCommands>
+					<Build command="$make -f $makefile DEBUG=YES" />
+					<CompileFile command="$make -f $makefile $file DEBUG=YES" />
+					<Clean command="$make -f $makefile clean DEBUG=YES" />
+					<DistClean command="$make -f $makefile distclean$target" />
+					<AskRebuildNeeded command="$make -q -f $makefile $target DEBUG=YES" />
+					<SilentBuild command="$make -f $makefile DEBUG=YES &gt; $(CMD_NULL)" />
+				</MakeCommands>
 			</Target>
-			<Target title="Effective C++">
-				<Option output="..\..\mkst" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="..\..\" />
-				<Option object_output=".\.objdbg\" />
-				<Option type="1" />
-				<Option compiler="gcc" />
-				<Option parameters="width 640 height 480" />
-				<Compiler>
-					<Add option="-Wshadow" />
-					<Add option="-Winit-self" />
-					<Add option="-Wredundant-decls" />
-					<Add option="-Weffc++" />
-					<Add option="-pedantic" />
-					<Add option="-pg" />
-					<Add option="-g" />
-					<Add option="-ggdb" />
-					<Add option="-O0" />
-				</Compiler>
-				<Linker>
-					<Add option="-pg" />
-				</Linker>
-			</Target>
-			<Target title="Release">
-				<Option output="..\..\mkst" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="..\..\" />
-				<Option object_output=".\.objrls\" />
+			<Target title="clean">
+				<Option output="./mkst" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../../" />
+				<Option object_output="./.objrls/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -59,106 +47,14 @@
 				<Linker>
 					<Add option="-s" />
 				</Linker>
-			</Target>
-			<Target title="Debug32">
-				<Option output="..\..\mkst" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="..\..\" />
-				<Option object_output=".\.objdbg\" />
-				<Option type="1" />
-				<Option compiler="gcc" />
-				<Compiler>
-					<Add option="-pedantic" />
-					<Add option="-pg" />
-					<Add option="-g" />
-					<Add option="-ggdb -m32" />
-				</Compiler>
-				<Linker>
-					<Add option="-pg" />
-					<Add option="-m32 -L/lib32 -L/usr/lib32" />
-				</Linker>
-			</Target>
-			<Target title="Graphite">
-				<Option output="..\..\mkst" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="..\..\" />
-				<Option object_output=".\.objrls\" />
-				<Option type="0" />
-				<Option compiler="gcc" />
-				<Compiler>
-					<Add option="-O2" />
-					<Add option="-march=native" />
-					<Add option="-floop-interchange" />
-					<Add option="-fgraphite-identity" />
-					<Add option="-ftree-loop-distribution" />
-					<Add option="-floop-parallelize-all" />
-					<Add option="-floop-strip-mine" />
-					<Add option="-floop-block" />
-				</Compiler>
-				<Linker>
-					<Add option="-s" />
-				</Linker>
-			</Target>
-			<Target title="WinDebug">
-				<Option output="..\..\mkst" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="..\..\" />
-				<Option object_output=".\.objdbg\" />
-				<Option type="1" />
-				<Option compiler="msvc10" />
-				<Option parameters="width 640 height 480" />
-				<Option projectCompilerOptionsRelation="1" />
-				<Option projectLinkerOptionsRelation="1" />
-				<Compiler>
-					<Add option="/MTd" />
-					<Add option="/TP" />
-					<Add option="/arch:SSE2" />
-					<Add option="/fp:precise" />
-					<Add option="/EHc" />
-					<Add option="/EHs" />
-					<Add option="/Od" />
-					<Add option="/W3" />
-					<Add option="/Zc:auto" />
-					<Add option="/Zi" />
-					<Add option="/c" />
-					<Add option="/DPWXLIB_DEBUG" />
-					<Add option="/DSFML_DYNAMIC" />
-					<Add directory="D:\PrydeWorX\pwxLib\" />
-					<Add directory="D:\SFML-1.6\include" />
-				</Compiler>
-				<Linker>
-					<Add option="/DEBUG" />
-					<Add library="sfml-system-d.lib" />
-					<Add library="sfml-window-d.lib" />
-					<Add library="sfml-graphics-d.lib" />
-					<Add directory="D:\SFML-1.6\lib" />
-				</Linker>
-			</Target>
-			<Target title="WinRelease">
-				<Option output="..\..\mkst" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="..\..\" />
-				<Option object_output=".\.objrls\" />
-				<Option type="1" />
-				<Option compiler="msvc10" />
-				<Option projectCompilerOptionsRelation="1" />
-				<Option projectLinkerOptionsRelation="1" />
-				<Compiler>
-					<Add option="/MT" />
-					<Add option="/TP" />
-					<Add option="/arch:SSE2" />
-					<Add option="/GA" />
-					<Add option="/fp:precise" />
-					<Add option="/EHc" />
-					<Add option="/EHs" />
-					<Add option="/Ox" />
-					<Add option="/W3" />
-					<Add option="/Zc:auto" />
-					<Add option="/DNDEBUG" />
-					<Add option="/DSFML_DYNAMIC" />
-					<Add directory="D:\PrydeWorX\pwxLib\" />
-				</Compiler>
-				<Linker>
-					<Add library="sfml-system.lib" />
-					<Add library="sfml-window.lib" />
-					<Add library="sfml-graphics.lib" />
-				</Linker>
+				<MakeCommands>
+					<Build command="$make -f $makefile $target DEBUG=YES" />
+					<CompileFile command="$make -f $makefile $file DEBUG=YES" />
+					<Clean command="$make -f $makefile clean DEBUG=YES" />
+					<DistClean command="$make -f $makefile distclean$target" />
+					<AskRebuildNeeded command="$make -q -f $makefile $target DEBUG=YES" />
+					<SilentBuild command="$make -f $makefile $target DEBUG=YES &gt; $(CMD_NULL)" />
+				</MakeCommands>
 			</Target>
 		</Build>
 		<Compiler>
@@ -172,28 +68,37 @@
 			<Add library="sfml-window" />
 			<Add library="sfml-graphics" />
 		</Linker>
+		<Unit filename="AUTHORS" />
+		<Unit filename="CONTRIBUTING.md" />
+		<Unit filename="ChangeLog" />
+		<Unit filename="INSTALL.md" />
+		<Unit filename="LICENSE" />
 		<Unit filename="Makefile" />
-		<Unit filename="callback.cpp" />
-		<Unit filename="callback.h" />
-		<Unit filename="consoleui.cpp" />
-		<Unit filename="consoleui.h" />
-		<Unit filename="environment.cpp" />
-		<Unit filename="environment.h" />
-		<Unit filename="icon.h" />
-		<Unit filename="main.cpp" />
-		<Unit filename="main.h" />
-		<Unit filename="renderer.cpp" />
-		<Unit filename="renderer.h" />
-		<Unit filename="sfmlui.cpp" />
-		<Unit filename="sfmlui.h" />
-		<Unit filename="textbox.cpp" />
-		<Unit filename="textbox.h" />
-		<Unit filename="tools.cpp" />
-		<Unit filename="tools.h" />
-		<Unit filename="workloop.cpp" />
-		<Unit filename="workloop.h" />
-		<Unit filename="wzseq.cpp" />
-		<Unit filename="wzseq.h" />
+		<Unit filename="NEWS.md" />
+		<Unit filename="README.md" />
+		<Unit filename="TODO.md" />
+		<Unit filename="code_of_conduct.md" />
+		<Unit filename="src/callback.cpp" />
+		<Unit filename="src/callback.h" />
+		<Unit filename="src/consoleui.cpp" />
+		<Unit filename="src/consoleui.h" />
+		<Unit filename="src/environment.cpp" />
+		<Unit filename="src/environment.h" />
+		<Unit filename="src/icon.h" />
+		<Unit filename="src/main.cpp" />
+		<Unit filename="src/main.h" />
+		<Unit filename="src/renderer.cpp" />
+		<Unit filename="src/renderer.h" />
+		<Unit filename="src/sfmlui.cpp" />
+		<Unit filename="src/sfmlui.h" />
+		<Unit filename="src/textbox.cpp" />
+		<Unit filename="src/textbox.h" />
+		<Unit filename="src/tools.cpp" />
+		<Unit filename="src/tools.h" />
+		<Unit filename="src/workloop.cpp" />
+		<Unit filename="src/workloop.h" />
+		<Unit filename="src/wzseq.cpp" />
+		<Unit filename="src/wzseq.h" />
 		<Extensions>
 			<envvars />
 			<code_completion />
