@@ -35,3 +35,4 @@ mkst
 # Temporary and Backup files
 *.bak
 *~
+*.layout
